@@ -174,8 +174,7 @@
       "name": "[concat('transfer', parameters('uniquePrefix'), 'nic')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/transfer', parameters('uniquePrefix'), 'ip')]",
-        "[concat('Microsoft.Resources/deployments/', parameters('uniquePrefix'), 'base')]"
+        "[concat('Microsoft.Network/publicIPAddresses/transfer', parameters('uniquePrefix'), 'ip')]"
       ],
       "properties": {
         "ipConfigurations": [
