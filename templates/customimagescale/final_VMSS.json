@@ -86,6 +86,7 @@
                 "name": "nic1",
                 "properties": {
                   "primary": "true",
+                  "overprovision": "false",
                   "ipConfigurations": [
                     {
                       "name": "ip1",
