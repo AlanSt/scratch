@@ -140,19 +140,19 @@
     {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/virtualNetworks",
-      "name": "[parameters('vnetName')]",
+      "name": "[variables('vnetName')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
-            "[parameters('addressPrefix')]"
+            "[variables('addressPrefix')]"
           ]
         },
         "subnets": [
           {
-            "name": "[parameters('subnetName')]",
+            "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "[parameters('subnetPrefix')]"
+              "addressPrefix": "[variables('subnetPrefix')]"
             }
           }
         ]
