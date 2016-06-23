@@ -139,7 +139,7 @@
     "transferImageOffer": "UbuntuServer",
     "ubuntuOSVersion": "15.10",
 
-    "templateLocation": "https://raw.githubusercontent.com/AlanSt/scratch/tree/master/templates/customimagescale/",
+    "templateLocation": "https://raw.githubusercontent.com/AlanSt/scratch/master/templates/customimagescale/",
 
     "uploadTemplateUri": "[concat(variables('templateLocation'), 'upload.json')]",
     "finalTemplateUri": "[concat(variables('templateLocation'), 'final_')]",
