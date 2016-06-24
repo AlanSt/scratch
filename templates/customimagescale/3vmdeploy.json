@@ -137,7 +137,7 @@
     "imagePieces": "[split(parameters('imageLocation'),'/')]",
     "blobName": "[variables('imagePieces')[sub(length(variables('imagePieces')),1)]]",
 
-    "templateLocation": "https://raw.githubusercontent.com/AlanSt/scratch/tree/master/templates/customimagescale/",
+    "templateLocation": "https://raw.githubusercontent.com/AlanSt/scratch/master/templates/customimagescale/",
 
     "finalTemplateUri": "[concat(variables('templateLocation'), 'final_')]"
   },
