@@ -98,7 +98,10 @@
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "subnet",
     "subnetPrefix": "10.0.0.0/16",
-    "storageAccountType": "Standard_LRS"
+    "storageAccountType": "Standard_LRS",
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer", 
+    "imageVersion": "15.10"
   },
   "resources": [
     {
