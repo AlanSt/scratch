@@ -278,7 +278,7 @@
         },
         "parameters": {
           "uniquePrefix": { "value": "[parameters('uniquePrefix')]" },
-          "index": { "value": "0" },
+          "index": { "value": 0 },
           "uploadScriptURI": { "value": "[variables('uploadScriptURI')]" }
         }
       }
