@@ -264,27 +264,7 @@
       }
     },
     {
-      "name": "[concat(parameters('uniquePrefix'), 'script1')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', parameters('uniquePrefix'), 'script0')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uploadTemplateURI')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "uniquePrefix": { "value": "[parameters('uniquePrefix')]" },
-          "index": { "value": "0" },
-          "uploadScriptURI": { "value": "[variables('uploadScriptURI')]" }
-        }
-      }
-    },
-    {
-      "name": "[concat(parameters('uniquePrefix'), 'script', string(add(copyIndex(), 2)))]",
+      "name": "[concat(parameters('uniquePrefix'), 'script', string(add(copyIndex(), 1)))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
@@ -292,7 +272,7 @@
       ],
       "copy": {
         "name": "uploadLoop",
-        "count": "[minus(parameters('numberOfSAs'), 1)]"
+        "count": "[parameters('numberOfSAs')]"
       },
       "properties": {
         "mode": "Incremental",
@@ -302,7 +282,7 @@
         },
         "parameters": {
           "uniquePrefix": { "value": "[parameters('uniquePrefix')]" },
-          "index": { "value": "[add(copyIndex(), 1)]" },
+          "index": { "value": "[copyIndex()]" },
           "uploadScriptURI": { "value": "[variables('uploadScriptURI')]" }
         }
       }
