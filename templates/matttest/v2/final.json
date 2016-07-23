@@ -134,7 +134,7 @@
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "image": {
-              "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhds/',parameters('blobName'))]"
+              "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhdimage/tibcotest.vhd')]"
             },
             "vhd": {
               "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhds/',variables('headNodeName'),'-osDisk.vhd')]"
@@ -197,7 +197,7 @@
               "createOption": "FromImage",
               "osType": "[parameters('OSType')]",
               "image": {
-                "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhds/',parameters('blobName'))]"
+                "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhds/vhdimage/tibcotest.vhd')]"
               }
             }
           },
