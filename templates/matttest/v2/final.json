@@ -249,7 +249,7 @@
       },
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'))]",
-        "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('headNodeName'),'/hnstart')]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('headNodeName'),'/extensions/hnstart')]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
