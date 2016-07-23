@@ -1,0 +1,27 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "headNodeSku": {
+      "value": "Standard_A1"
+    },
+    "engineNodeSku": {
+      "value": "Standard_A1"
+    },
+    "OSVersion": {
+      "value": "Linux"
+    },
+    "uniquePrefix": {
+      "value": "alanst01"
+    },
+    "instanceCount": {
+      "value": 20
+    },
+    "adminUsername": {
+      "value": "azureuser"
+    },
+    "adminPassword": {
+      "value": "Password@1"
+    }
+  }
+}
