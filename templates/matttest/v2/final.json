@@ -131,14 +131,17 @@
           "adminPassword": "[parameters('adminPassword')]"
         },
         "storageProfile": {
-          "imageReference": "[variables('imageReference')]",
           "osDisk": {
-            "name": "[variables('headNodeOSDiskName')]",
-            "vhd": {
-              "uri": "[concat('http://',variables('saName'),'.blob.core.windows.net/vhds/headNode.vhd')]"
-            },
+            "name": "[concat(variables('headNodeName'),'-osDisk')]",
+            "osType": "Linux",
             "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "createOption": "FromImage",
+            "image": {
+              "uri": "[concat('https://',parameters('saName'),'.blob.core.windows.net/vhds/',parameters('blobName'))]"
+            },
+            "vhd": {
+              "uri": "[concat('https://',parameters('saName'),'.blob.core.windows.net/vhds/',variables('headNodeName'),'-osDisk.vhd')]"
+            }
           }
         },
         "networkProfile": {
