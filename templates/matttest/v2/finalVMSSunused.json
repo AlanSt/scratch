@@ -111,29 +111,6 @@
       }
     },
     {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('longNamingInfix'), 'nic', padLeft(copyindex(), 2, '0'))]",
-      "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "[concat('nicLoop', variables('longNamingInfix'))]",
-        "count": "[parameters('instanceCount')]"
-      },
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('vnetName'), '/subnets/', parameters('subnetName'))]"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('headNodeName')]",
       "location": "[resourceGroup().location]",
@@ -195,68 +172,79 @@
       }
     },
     {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'))]",
+      "type": "Microsoft.Compute/virtualMachineScaleSets",
+      "name": "[variables('namingInfix')]",
       "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "[concat('virtualMachineLoop', parameters('clusterName'))]",
-        "count": "[parameters('instanceCountPerSA')]"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('longNamingInfix'), 'nic', padLeft(copyindex(), 2, '0'))]"
-      ],
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[parameters('engineNodeSku')]"
-        },
-        "osProfile": {
-          "computername": "[concat(variables('longNamingInfix'), 'vm', padLeft(copyIndex(), 2, '0'))]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "osDisk": {
-            "name": "[concat(variables('longNamingInfix'), 'vm', padLeft(copyIndex(), 2, '0'),'-osDisk')]",
-            "osType": "Linux",
-            "caching": "ReadWrite",
-            "createOption": "FromImage",
-            "image": {
-              "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhdimage/tibcotest.vhd')]"
-            },
-            "vhd": {
-              "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhds/',variables('headNodeName'),'-osDisk.vhd')]"
-            }
-          }
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('longNamingInfix'), 'nic', padLeft(copyindex(), 2, '0')))]"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'),'/enginestart')]",
       "apiVersion": "[variables('computeApiVersion')]",
-      "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'))]",
-        "[concat('Microsoft.Compute/virtualMachines/extensions', variables('headNodeName'),'/hnstart')]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('headNodeName'))]"
       ],
+      "sku": {
+        "name": "[parameters('engineNodeSku')]",
+        "tier": "Standard",
+        "capacity": "[parameters('instanceCount')]"
+      },
       "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.5",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "[variables('engineScript')]"  
-          ],  
-          "commandToExecute": "sh engine.sh"
+        "overprovision": "true",
+        "upgradePolicy": {
+          "mode": "Manual"
+        },
+        "virtualMachineProfile": {
+          "storageProfile": {
+            "osDisk": {
+              "name": "vmssosdisk",
+              "caching": "ReadOnly",
+              "createOption": "FromImage",
+              "osType": "[parameters('OSType')]",
+              "image": {
+                "uri": "[concat('https://',variables('saName'),'.blob.core.windows.net/vhds/vhdimage/tibcotest.vhd')]"
+              }
+            }
+          },
+          "osProfile": {
+            "computerNamePrefix": "[variables('namingInfix')]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "adminPassword": "[parameters('adminPassword')]"
+          },
+          "networkProfile": {
+            "networkInterfaceConfigurations": [
+              {
+                "name": "[variables('nicName')]",
+                "properties": {
+                  "primary": "true",
+                  "ipConfigurations": [
+                    {
+                      "name": "[variables('ipConfigName')]",
+                      "properties": {
+                        "subnet": {
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'), '/subnets/', variables('subnetName'))]"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "extensionProfile": {
+            "extensions": [
+              {
+                "name": "EngineStart",
+                "properties": {
+                  "publisher": "Microsoft.OSTCExtensions",
+                  "type": "CustomScriptExtension",
+                  "typeHandlerVersion": "1.4",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "fileUris": [
+                      "[variables('engineScript')]"
+                    ],
+                    "commandToExecute": "sh engine.sh"
+                  }
+                }
+              }
+            ]
+          }
         }
       }
     }
