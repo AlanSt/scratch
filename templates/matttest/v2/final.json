@@ -164,7 +164,10 @@
         "typeHandlerVersion": "1.5",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "commandToExecute": "sudo /opt/datasynapse/server.sh start"
+          "fileUris": [
+            "[variables('hnScript')]"  
+          ],  
+          "commandToExecute": "sh headnode.sh"
         }
       }
     },
