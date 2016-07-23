@@ -116,7 +116,7 @@
       "name": "[concat(variables('longNamingInfix'), 'nic', padLeft(copyindex(), 2, '0'))]",
       "location": "[resourceGroup().location]",
       "copy": {
-        "name": "[concat('nicLoop', variables('longNamingInfix'))]",
+        "name": "nicLoop",
         "count": "[parameters('instanceCount')]"
       },
       "properties": {
@@ -200,8 +200,8 @@
       "name": "[concat(variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'))]",
       "location": "[resourceGroup().location]",
       "copy": {
-        "name": "[concat('virtualMachineLoop', parameters('clusterName'))]",
-        "count": "[parameters('instanceCountPerSA')]"
+        "name": "virtualMachineLoop",
+        "count": "[parameters('instanceCount')]"
       },
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', variables('longNamingInfix'), 'nic', padLeft(copyindex(), 2, '0'))]"
@@ -243,6 +243,10 @@
       "name": "[concat(variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'),'/enginestart')]",
       "apiVersion": "[variables('computeApiVersion')]",
       "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "extensionLoop",
+        "count": "[parameters('instanceCount')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'))]",
         "[concat('Microsoft.Compute/virtualMachines/extensions', variables('headNodeName'),'/hnstart')]"
