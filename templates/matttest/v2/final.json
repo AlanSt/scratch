@@ -167,7 +167,7 @@
           "fileUris": [
             "[variables('hnScript')]"
           ],
-          "commandToExecute": "./headnode.sh"
+          "commandToExecute": "sh headnode.sh"
         }
       }
     },
@@ -239,7 +239,7 @@
                     "fileUris": [
                       "[variables('engineScript')]"
                     ],
-                    "commandToExecute": "./engine.sh"
+                    "commandToExecute": "sh engine.sh"
                   }
                 }
               }
