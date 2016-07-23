@@ -1,1 +1,3 @@
-sudo /opt/datasynapse/server.sh start
+sudo su
+cd /opt/datasynapse
+./server.sh start
