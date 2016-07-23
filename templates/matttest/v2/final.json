@@ -161,13 +161,10 @@
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.4",
+        "typeHandlerVersion": "1.5",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "fileUris": [
-            "[variables('hnScript')]"
-          ],
-          "commandToExecute": "sh headnode.sh"
+          "commandToExecute": "sudo /opt/datasynapse/server.sh start"
         }
       }
     },
