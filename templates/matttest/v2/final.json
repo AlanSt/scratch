@@ -64,6 +64,7 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "nicName": "[concat(variables('namingInfix'), 'nic')]",
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
+    "availabilitySetName": "[concat(parameters('uniquePrefix'), 'av')]",
     "computeApiVersion": "2016-03-30",
     "networkApiVersion": "2016-03-30",
     "storageApiVersion": "2015-06-15",
@@ -72,6 +73,12 @@
     "hnScript":  "[concat(variables('templateLocation'), 'headnode.sh')]"
   },
   "resources": [
+    {
+      "type": "Microsoft.Compute/availabilitySets",
+      "name": "[variables('availabilitySetName')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[resourceGroup().location]"
+    },
     {
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
@@ -142,6 +149,9 @@
         "[concat('Microsoft.Network/networkInterfaces/', variables('headNodeNicName'))]"
       ],
       "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+        },
         "hardwareProfile": {
           "vmSize": "[parameters('headNodeSku')]"
         },
@@ -207,6 +217,9 @@
         "[concat('Microsoft.Network/networkInterfaces/', variables('longNamingInfix'), 'nic', padLeft(copyindex(), 2, '0'))]"
       ],
       "properties": {
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+        },
         "hardwareProfile": {
           "vmSize": "[parameters('engineNodeSku')]"
         },
@@ -260,7 +273,7 @@
           "fileUris": [
             "[variables('engineScript')]"  
           ],  
-          "commandToExecute": "[concat('bash engine.sh ', reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))).dnsSettings.internalFqdn)]"
+          "commandToExecute": "[concat('bash engine.sh ', variables('headNodeName'))]"
         }
       }
     }
