@@ -260,10 +260,11 @@
           "fileUris": [
             "[variables('engineScript')]"  
           ],  
-          "commandToExecute": "bash engine.sh"
+          "commandToExecute": "[concat('bash engine.sh ', reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))).dnsSettings.fqdn)]"
         }
       }
     }
   ]
 }
+
 

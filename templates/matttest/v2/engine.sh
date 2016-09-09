@@ -1,4 +1,4 @@
 sudo su
 cd /opt/DSEngine
-./configure.sh -s 10.0.0.100:8000 -l n
+./configure.sh -s $2:8000 -l n
 ./engine.sh start
