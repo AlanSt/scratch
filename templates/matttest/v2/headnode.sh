@@ -9,3 +9,4 @@ sed -i "s/${old}/${new}/g" /opt/datasynapse/webapps/livecluster/WEB-INF/config/C
 sed -i "s/${old}/${new}/g" /opt/datasynapse/webapps/livecluster/WEB-INF/config/installation.properties
 sed -i "s/${old}/${new}/g" /opt/datasynapse/webapps/livecluster/WEB-INF/driverInstall/driver.properties
 ./server.sh start
+shutdown -r +1 &
