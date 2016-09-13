@@ -261,8 +261,7 @@
         "count": "[parameters('instanceCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('headNodeName'),'/extensions/hnstart')]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('longNamingInfix'), 'engine', padLeft(copyIndex(), 2, '0'))]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
