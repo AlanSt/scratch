@@ -3,5 +3,5 @@ sudo su
 #director=${1}.${dns}
 director=10.0.0.100
 cd /opt/DSEngine
-./configure.sh -s ${director}:8000 -l n
-./engine.sh start
+sudo ./configure.sh -s ${director}:8000 -l n
+sudo ./engine.sh start
